@@ -47,7 +47,7 @@ HomeScreen.navigationOptions = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 100,
+        
     }
 });
 

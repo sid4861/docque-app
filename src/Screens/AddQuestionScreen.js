@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, StyleSheet, Picker } from 'react-native';
 import { Text, Input, Button } from 'react-native-elements';
-import ButtonPrimary from '../Components/ButtonPrimary';
 import Spacer from '../Components/Spacer';
 import * as DocumentPicker from 'expo-document-picker';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import 'react-native-get-random-values'
-// import {WebView} from 'react-native-webview';
 import { v4 as uuidv4 } from 'uuid';
+import {Context as QuestionContext} from '../Context/QuestionContext';
 
 // import Picker from '@react-native-community/picker'; 
 
@@ -16,63 +15,68 @@ var fileName = null;
 var downloadUrl = null;
 var filenameUuid = null;
 
-const uriToBlob = (uri) => {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-            // return the blob
-            resolve(xhr.response);
-        };
-
-        xhr.onerror = function () {
-            // something went wrong
-            reject(new Error('uriToBlob failed'));
-        };
-        // this helps us get a blob
-        xhr.responseType = 'blob';
-        xhr.open('GET', uri, true);
-
-        xhr.send(null);
-    });
-}
-
-const uploadToFirebase =  (blob, fileName) => {
-    filenameUuid = uuidv4();
-    return new Promise((resolve, reject) => {
-        var storageRef = firebase.storage().ref();
-        storageRef.child('questions/'+filenameUuid+'-'+fileName).put(blob).then((snapshot) => {
-            blob.close();
-            console.log(snapshot);
-            resolve(snapshot);
-        }).catch((error) => {
-            reject(error);
-        });
-    });
-}
-
-const handleDocumentPicker = () => {
-    DocumentPicker.getDocumentAsync().then((results) => {
-        if (results.type !== 'cancel') {
-            const { uri, name, size } = results;
-            console.log('URI = ', uri);
-            console.log('name = ', name);
-            console.log('size = ', size);
-            fileName=name;
-            return uriToBlob(uri);
-        }
-    }).then((blob) => {
-        console.log(fileName);
-        return uploadToFirebase(blob, fileName);
-    }).then((snapshot) => {
-        console.log('File Uploaded');
-    }).catch((error) => {
-        throw error;
-    });
-}
-
 const AddQuestionScreen = () => {
     const [question, setQuestion] = useState('');
     const [tag, setTag] = useState('Select speciality');
+    const [fileUploaded, setFileUploaded] = useState(false);
+    const {saveQuestion, state} = useContext(QuestionContext);
+
+    const uriToBlob = (uri) => {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                // return the blob
+                resolve(xhr.response);
+            };
+    
+            xhr.onerror = function () {
+                // something went wrong
+                reject(new Error('uriToBlob failed'));
+            };
+            // this helps us get a blob
+            xhr.responseType = 'blob';
+            xhr.open('GET', uri, true);
+    
+            xhr.send(null);
+        });
+    }
+    
+    const uploadToFirebase = (blob, fileName) => {
+        filenameUuid = uuidv4();
+        return new Promise((resolve, reject) => {
+            var storageRef = firebase.storage().ref();
+            storageRef.child('questions/' + filenameUuid + '-' + fileName).put(blob).then((snapshot) => {
+                blob.close();
+                //console.log(snapshot);
+                resolve(snapshot);
+            }).catch((error) => {
+                reject(error);
+            });
+        });
+    }
+    
+    const handleDocumentPicker = () => {
+        DocumentPicker.getDocumentAsync().then((results) => {
+            if (results.type !== 'cancel') {
+                const { uri, name, size } = results;
+                console.log('URI = ', uri);
+                console.log('name = ', name);
+                console.log('size = ', size);
+                fileName = name;
+                return uriToBlob(uri);
+            }
+        }).then((blob) => {
+            console.log(fileName);
+            return uploadToFirebase(blob, fileName);
+        }).then((snapshot) => {
+            setFileUploaded(true);
+            console.log('File Uploaded');
+        }).catch((error) => {
+            throw error;
+        });
+    }
+
+
     return (
         <View style={styles.container} >
             <Spacer>
@@ -136,12 +140,16 @@ const AddQuestionScreen = () => {
                         backgroundColor: '#9C3C37'
                     }} title="Add attachment" onPress={() => { handleDocumentPicker() }} />
                 </Spacer>
+                {fileUploaded ? <Text>{fileName}</Text> : null}
             </Spacer>
 
             <Spacer>
-            <Button buttonStyle={{
+                <Spacer>
+                    <Button buttonStyle={{
                         backgroundColor: '#9C3C37'
-                    }} title="Ask" onPress={() => { handleDocumentPicker() }} />
+                    }} title="Ask" onPress={() => { saveQuestion(question, tag, filenameUuid + '-' + fileName) }} />
+
+                </Spacer>
             </Spacer>
         </View>
     );

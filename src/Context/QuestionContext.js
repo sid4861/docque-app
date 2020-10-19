@@ -5,7 +5,7 @@ import { AsyncStorage } from 'react-native';
 
 const questionReducer = (state, action) => {
     switch (action.type) {
-        case 'add_questions':
+        case 'get_questions':
            // console.log('inside add_questions');
             return { ...state, questions: [...action.payload] };
         default:
@@ -23,7 +23,7 @@ const getAllQuestions = (dispatch) => {
                     idToken
                 }
             });
-            dispatch({ type: 'add_questions', payload: questionsArray.data })
+            dispatch({ type: 'get_questions', payload: questionsArray.data })
             //console.log(questionsArray.data);
         } catch (err) {
             console.log(err);
@@ -33,18 +33,22 @@ const getAllQuestions = (dispatch) => {
 }
 
 const saveQuestion = (dispatch) => {
-    return async() => {
+    return async(question, tag, filename) => {
         try{    
             console.log('save question invoked');
             const idToken = await AsyncStorage.getItem('token');
-            const response = axios.post('/question', {
-                params: {
+            const userId = await AsyncStorage.getItem('userId');
+            const response = await axios.post('/question', {
                     idToken,
                     question,
                     tag,
-                    filename
-                }
+                    filename,
+                    userId,
+                    noOfAnswers: 0,
+                    noOfInsightfuls: 0,
+                    date: (Date(Date.now())).toString()
             })
+            navigate('HomeScreen');
         } catch(err){
             console.log(err);
         }

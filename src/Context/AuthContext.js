@@ -58,7 +58,7 @@ const signUp = (dispatch) => {
             // console.log(response.data.token);
             // console.log(response.data.localId);
             await AsyncStorage.setItem('token', response.data.token);
-            await AsyncStorage.setItem('usedId', response.data.localId);
+            await AsyncStorage.setItem('userId', response.data.localId);
             dispatch({ type: 'signup', payload: response.data.token });
             // setTimeout(() => {
             //     navigate('UserDetailsScreen');
@@ -77,7 +77,7 @@ const signIn = (dispatch) => {
             navigate('LoadingScreen');
             const response = await axios.post('/signin', { email, password });
             await AsyncStorage.setItem('token', response.data.token);
-            await AsyncStorage.setItem('usedId', response.data.userId);
+            await AsyncStorage.setItem('userId', response.data.userId);
             dispatch({ type: 'signin', payload: response.data.token });
             navigate('HomeScreen');
         } catch (err) {
@@ -111,7 +111,7 @@ const saveUserDetails = (dispatch) => {
     return async ({name, country, isStudent, degree}) => {
         try {
             navigate('LoadingScreen');
-            const userID = await AsyncStorage.getItem('usedId');
+            const userID = await AsyncStorage.getItem('userId');
             const idToken = await AsyncStorage.getItem('token');
             const response = await axios.post('/save-details', {name, country, isStudent, degree, userID, idToken});
             navigate('HomeScreen');

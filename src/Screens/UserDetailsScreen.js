@@ -44,7 +44,7 @@ const UserDetailsScreen = () => {
                         inputContainerStyle={styles.inputContainerStyle}
                         labelStyle={{ color: 'white', fontWeight: 'normal' }}
                     />
-                </Spacer>
+                </Spacer>   
 
                 <Spacer>
                     <Input

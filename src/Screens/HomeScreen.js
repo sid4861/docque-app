@@ -1,18 +1,44 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { Context as AuthContext } from '../Context/AuthContext';
 import LoadingScreen from './LoadingScreen';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import QuestionCard from '../Components/QuestionCard';
-
+import { Context as QuestionContext } from '../Context/QuestionContext';
+import FloatingActionButton from '../Components/FloatingActionButton';
 const HomeScreen = () => {
+
+    const { getAllQuestions, state } = useContext(QuestionContext);
+
+    useEffect(() => {
+        //console.log('inside useEffect');
+        getAllQuestions();
+        // console.log(state.questions);
+    }, []);
 
     return (
 
-        <View style={styles.container} >
-            <QuestionCard />
+        // <View style={styles.container} >
+        //     <QuestionCard />
+        // </View>
+        <View>
+            <FlatList
+                data={state.questions}
+                keyExtractor={(item) => item.key}
+                renderItem={({ item }) => {
+                    return <QuestionCard
+                        question={item.question}
+                        name={item.name}
+                        noOfAnswers={item.noOfAnswers}
+                        noOfInsightfuls={item.noOfInsightfuls}
+                        tag={item.tag}
+                    />
+                }}
+            />
+            <FloatingActionButton />
         </View>
+
 
     );
 
@@ -22,7 +48,7 @@ const HomeScreen = () => {
 HomeScreen.navigationOptions = ({ navigation }) => {
     return {
         headerRight: () => (
-            <View style={{flexDirection: 'row'}} >
+            <View style={{ flexDirection: 'row' }} >
                 <TouchableOpacity style={{ marginRight: 24 }} onPress={() => navigation.navigate('')}>
                     <FontAwesome name="filter" size={24} color="white" />
                 </TouchableOpacity>
@@ -47,7 +73,7 @@ HomeScreen.navigationOptions = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        
+
     }
 });
 

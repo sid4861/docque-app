@@ -12,8 +12,19 @@ import HomeScreen from './src/Screens/HomeScreen';
 import LoadingScreen from './src/Screens/LoadingScreen';
 import ForgotPasswordScreen from './src/Screens/ForgotPasswordScreen';
 import UserDetailsScreen from './src/Screens/UserDetailsScreen';
+import AddQuestionScreen from './src/Screens/AddQuestionScreen';
 import { setNavigator } from './src/navigationRef';
 import { Provider as AuthProvider } from './src/Context/AuthContext';
+import { Provider as QuestionProvider } from './src/Context/QuestionContext';
+import * as firebase from 'firebase';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBzYmdifMIowrHQgIPejuUzGRRNkMK_6G4",
+  authDomain: "docque-e6f1f.firebaseapp.com",
+  databaseURL: "docque-e6f1f.firebaseapp.com",
+  storageBucket: "gs://docque-e6f1f.appspot.com",
+};
+const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -33,7 +44,8 @@ const switchNavigator = createSwitchNavigator({
     UserDetailsScreen
   }),
   mailFlow: createStackNavigator({
-    HomeScreen
+    HomeScreen,
+    AddQuestionScreen
   })
 });
 
@@ -49,10 +61,11 @@ export default () => {
     />
   }
   return (
-    <AuthProvider>
-      <App ref={(navigator) => { setNavigator(navigator) }} />
-    </AuthProvider>
-
+    <QuestionProvider>
+      <AuthProvider>
+        <App ref={(navigator) => { setNavigator(navigator) }} />
+      </AuthProvider>
+    </QuestionProvider>
   );
 }
 

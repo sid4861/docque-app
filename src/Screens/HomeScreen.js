@@ -1,7 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import { Context as AuthContext } from '../Context/AuthContext';
-import LoadingScreen from './LoadingScreen';
+import { View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import QuestionCard from '../Components/QuestionCard';
@@ -14,7 +12,7 @@ const HomeScreen = () => {
     useEffect(() => {
         //console.log('inside useEffect');
         getAllQuestions();
-        // console.log(state.questions);
+        //console.log(state.questions);
     }, []);
 
     return (
@@ -27,13 +25,17 @@ const HomeScreen = () => {
                 data={state.questions}
                 keyExtractor={(item) => item.key}
                 renderItem={({ item }) => {
-                    return <QuestionCard
-                        question={item.question}
-                        name={item.name}
-                        noOfAnswers={item.noOfAnswers}
-                        noOfInsightfuls={item.noOfInsightfuls}
-                        tag={item.tag}
-                    />
+                    return (
+
+                        <QuestionCard
+                            question={item.question}
+                            name={item.name}
+                            noOfAnswers={item.noOfAnswers}
+                            noOfInsightfuls={item.noOfInsightfuls}
+                            tag={item.tag}
+                        />
+
+                    )
                 }}
             />
             <FloatingActionButton />

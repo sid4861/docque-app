@@ -2,12 +2,12 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import {navigate} from '../navigationRef';
 
-const FloatingActionButton = () => {
+const FloatingActionButton = ({route}) => {
     return (
         <TouchableOpacity
             activeOpacity={0.7}
             style={styles.TouchableOpacityStyle}
-            onPress={() => {navigate('AddQuestionScreen')}}
+            onPress={() => {navigate(route)}}
             >
             <Image
                 source={require('../../assets/fab.png')}

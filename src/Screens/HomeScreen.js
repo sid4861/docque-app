@@ -5,27 +5,36 @@ import { MaterialIcons } from '@expo/vector-icons';
 import QuestionCard from '../Components/QuestionCard';
 import { Context as QuestionContext } from '../Context/QuestionContext';
 import FloatingActionButton from '../Components/FloatingActionButton';
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
 
     const { getAllQuestions, state } = useContext(QuestionContext);
 
     useEffect(() => {
         //console.log('inside useEffect');
         getAllQuestions();
-        //console.log(state.questions);
+       // console.log(state.questions);
     }, []);
 
-    return (
+    const navigateToQuestionScreen = (key, question, name, noOfAnswers, noOfInsightfuls, tag, filename) => {
+        console.log(key);
+        console.log('navigating to question screen');
+        navigation.navigate('QuestionScreen', {key, question, name, noOfAnswers, noOfInsightfuls, tag, filename});
+    }
 
-        // <View style={styles.container} >
-        //     <QuestionCard />
-        // </View>
+    return (
         <View>
             <FlatList
                 data={state.questions}
                 keyExtractor={(item) => item.key}
                 renderItem={({ item }) => {
                     return (
+                        <TouchableOpacity onPress={() => {navigateToQuestionScreen(item.key,
+                        item.question,
+                        item.name,
+                        item.noOfAnswers,
+                        item.noOfInsightfuls,
+                        item.tag,
+                        item.filename)}} >
 
                         <QuestionCard
                             question={item.question}
@@ -33,12 +42,14 @@ const HomeScreen = () => {
                             noOfAnswers={item.noOfAnswers}
                             noOfInsightfuls={item.noOfInsightfuls}
                             tag={item.tag}
+                            key={item.key}
+                            filename={item.filename}
                         />
-
+                        </TouchableOpacity>
                     )
                 }}
             />
-            <FloatingActionButton />
+            <FloatingActionButton route={'AddQuestionScreen'}/>
         </View>
 
 

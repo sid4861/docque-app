@@ -1,14 +1,30 @@
-import React, {useState, useContext} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import {Text} from 'react-native-elements';
+import React, { useState, useContext } from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text } from 'react-native-elements';
 import FloatingActionButton from '../Components/FloatingActionButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import QuestionCard from '../Components/QuestionCard';
 
-const QuestionScreen = () => {
-    return(
-        <View>
-            <Text>Question Screen</Text>
+const QuestionScreen = ({ navigation }) => {
+    const key = navigation.getParam('key');
+    const question = navigation.getParam('question');
+    const name = navigation.getParam('name');
+    const noOfAnswers = navigation.getParam('noOfAnswers');
+    const noOfInsightfuls = navigation.getParam('noOfInsightfuls');
+    const tag = navigation.getParam('tag');
+    const filename = navigation.getParam('filename');
+
+    return (
+        <View style={styles.container} >
+            <QuestionCard
+                question={question}
+                name={name}
+                noOfAnswers={noOfAnswers}
+                noOfInsightfuls={noOfInsightfuls}
+                tag={tag}
+                key={key}
+                filename={filename}
+            />
             <FloatingActionButton />
         </View>
     );
@@ -38,7 +54,9 @@ QuestionScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-
+    container: {
+        flex: 1
+    }
 });
 
 export default QuestionScreen;

@@ -1,24 +1,19 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
-import { navigate } from '../../src/navigationRef';
+import {  StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import QuestionCardContent from './QuestionCardContent';
 
-const QuestionCard = ({ question, name, noOfAnswers, noOfInsightfuls, tag }) => {
+const QuestionCard = ({ question, name, noOfAnswers, noOfInsightfuls, tag, key, filename }) => {
 
-    const navigateToQuestionScreen = () => {
-        navigate('QuestionScreen');
-    }
 
     return (
-        <TouchableOpacity onPress={() => { navigateToQuestionScreen() }}>
             <QuestionCardContent question={question}
                 name={name}
                 noOfAnswers={noOfAnswers}
                 noOfInsightfuls={noOfInsightfuls}
                 tag={tag}
+                filename={filename}
             />
-        </TouchableOpacity>
     );
 }
 

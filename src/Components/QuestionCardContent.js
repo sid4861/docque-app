@@ -53,7 +53,9 @@ const styles = StyleSheet.create({
     nameStyle: {
         fontSize: 12,
         color: '#6C6C6C',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: '#CA534C',
+        textTransform: 'capitalize'
     },
     timeStyle: {
         fontSize: 12,

@@ -8,6 +8,8 @@ const questionReducer = (state, action) => {
         case 'get_questions':
            // console.log('inside add_questions');
             return { ...state, questions: [...action.payload] };
+        case 'get_answers':
+            return {...state, answers: [...action.payload]};
         default:
             return state;
     }
@@ -55,4 +57,24 @@ const saveQuestion = (dispatch) => {
     };
 };
 
-export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion }, { questions: [] });
+const getAllAnswers = (dispatch) => {
+    return async(questionId) => {
+        console.log(questionId);
+        try{
+            console.log('get all answers invoked');
+            const idToken = await AsyncStorage.getItem('token');
+            const answersArray = await axios.post('/answers', {
+                idToken,
+                questionId
+            });
+           console.log(answersArray.data);
+            dispatch({ type: 'get_answers', payload: answersArray.data })
+            
+
+        } catch(err){
+            console.log(err);
+        }
+    }
+};
+
+export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion, getAllAnswers }, { questions: [], answers: [] });

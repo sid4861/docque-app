@@ -6,6 +6,7 @@ import QuestionCardContent from './QuestionCardContent';
 const QuestionCard = ({ question, name, noOfAnswers, noOfInsightfuls, tag, key, filename }) => {
 
 
+ 
     return (
             <QuestionCardContent question={question}
                 name={name}

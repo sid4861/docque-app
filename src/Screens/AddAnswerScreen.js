@@ -13,7 +13,6 @@ const AddAnswerScreen = ({navigation}) => {
 
             <Spacer>
                 <Text h3 style={{ color: 'white' }} > Your Answer </Text>
-                <Text h3 style={{ color: 'white' }} > {navigation.getParam('questionId')} </Text>
             </Spacer>
 
             <Spacer>
@@ -31,7 +30,7 @@ const AddAnswerScreen = ({navigation}) => {
                 <Spacer>
                     <Button buttonStyle={{
                         backgroundColor: '#9C3C37'
-                    }} title="Answer" onPress={() => { saveAnswer(answer) }} />
+                    }} title="Answer" onPress={() => { saveAnswer(answer, navigation.getParam('questionId')) }} />
 
                 </Spacer>
             </Spacer>

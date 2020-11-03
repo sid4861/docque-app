@@ -7,7 +7,7 @@ import { Context as QuestionContext } from '../Context/QuestionContext';
 import FloatingActionButton from '../Components/FloatingActionButton';
 const HomeScreen = ({navigation}) => {
 
-    const { getAllQuestions, state } = useContext(QuestionContext);
+    const { getAllQuestions, setCurrentQuestionId,  state } = useContext(QuestionContext);
 
     useEffect(() => {
         //console.log('inside useEffect');
@@ -18,6 +18,7 @@ const HomeScreen = ({navigation}) => {
     const navigateToQuestionScreen = (key, question, name, noOfAnswers, noOfInsightfuls, tag, filename, date) => {
         console.log(key);
         console.log('navigating to question screen');
+        setCurrentQuestionId(key);
         navigation.navigate('QuestionScreen', {key, question, name, noOfAnswers, noOfInsightfuls, tag, filename, date});
     }
 

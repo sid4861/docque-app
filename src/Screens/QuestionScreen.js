@@ -7,6 +7,7 @@ import QuestionCard from '../Components/QuestionCard';
 import { Context as QuestionContext } from '../Context/QuestionContext';
 import noAnswers from '../../assets/no-answers.png';
 import AnswersList from '../Components/AnswersList';
+import CustomFilterIcon from '../Components/CustomFilterIcon';
 
 const QuestionScreen = ({ navigation }) => {
     const key = navigation.getParam('key');
@@ -24,6 +25,30 @@ const QuestionScreen = ({ navigation }) => {
         getAllAnswers(key);
     }, [state.answers.length]);
 
+    // const sortByTimeOlder = () => {
+
+    // };
+
+    // const sortByTimeRecent = () => {
+    //     getAllAnswersAndSortByTimeRecent();
+    // }
+
+    // const sortByNoOfInsightfuls = () => {
+
+    // }
+
+    var answersList;
+    if (state.areAnswersLoaded == true) {
+        if (state.answers.length > 0) {
+            answersList = <AnswersList answers={state.answers} />
+        } else {
+            answersList = <View style={{ marginTop: 100, flexDirection: 'column', alignItems: 'center' }} ><Image style={{ width: 350, height: 350 }} source={noAnswers} /><Text style={{ textAlign: 'center', lineHeight: 24, fontSize: 14, color: '#6C6C6C' }} > Oops! No answers for this question, add an answer by tapping on the + button below.   </Text></View>
+        }
+    }
+    else {
+        answersList =  <Text> 'Loading' </Text> ;
+    }
+
     return (
         <View style={styles.container} >
             <QuestionCard
@@ -36,14 +61,11 @@ const QuestionScreen = ({ navigation }) => {
                 filename={filename}
                 date={date}
             />
-            <Text style={{marginTop: 8, color: '#CA534C', alignSelf: 'center'}} > Answers </Text>
-            {state.answers.length > 0 ? <AnswersList  answers={state.answers} /> :
-                <View style={{ marginTop: 100, flexDirection: 'column', alignItems: 'center' }} >
-                    <Image style={{ width: 350, height: 350 }} source={noAnswers} />
-                    <Text style={{textAlign: 'center', lineHeight: 24, fontSize: 14, color: '#6C6C6C'}} > Oops! No answers for this question, add an answer by tapping on the + button below.   </Text>
-                </View>}
- 
-            <FloatingActionButton route={'AddAnswerScreen'} params={{questionId: key}} />
+            <Text style={{ marginTop: 8, color: '#CA534C', alignSelf: 'center' }} > Answers </Text>
+
+            {answersList}
+
+            <FloatingActionButton route={'AddAnswerScreen'} params={{ questionId: key }} />
         </View>
     );
 }
@@ -51,11 +73,12 @@ const QuestionScreen = ({ navigation }) => {
 QuestionScreen.navigationOptions = ({ navigation }) => {
     return {
         headerRight: () => (
-            <View style={{ flexDirection: 'row' }} >
-                <TouchableOpacity style={{ marginRight: 24 }} onPress={() => navigation.navigate('')}>
-                    <MaterialIcons name="sort" size={24} color="white" />
-                </TouchableOpacity>
-            </View>
+            // <View style={{ flexDirection: 'row' }} >
+            //     <TouchableOpacity style={{ marginRight: 24 }} onPress={() => navigation.navigate('')}>
+            //         <MaterialIcons name="sort" size={24} color="white" />
+            //     </TouchableOpacity>
+            // </View>
+            <CustomFilterIcon menuStyle={{ flexDirection: 'row', marginRight: 24 }} />
         ),
         title: 'DOCQUE',
         headerStyle: {

@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Text, Image } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
+import moment from 'moment';
 
-const QuestionCardContent = ({ question, name, noOfAnswers, noOfInsightfuls, tag, filename }) => {
+const QuestionCardContent = ({ question, name, noOfAnswers, noOfInsightfuls, tag, filename, date }) => {
 
 
     return (
@@ -10,7 +11,7 @@ const QuestionCardContent = ({ question, name, noOfAnswers, noOfInsightfuls, tag
             <Text style={styles.questionStyle} >{question}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 16 }} >
                 <Text style={styles.nameStyle} >{name}</Text>
-                <Text style={styles.timeStyle} > 2 days ago </Text>
+                <Text style={styles.timeStyle} > {moment(new Date(date).toISOString()).fromNow()} </Text>
             </View>
             <View style={{ flexDirection: 'row', marginTop: 16, justifyContent: 'space-between' }} >
                 <View style={{ flexDirection: 'row' }} >

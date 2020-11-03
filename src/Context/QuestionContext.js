@@ -57,6 +57,22 @@ const saveQuestion = (dispatch) => {
     };
 };
 
+const saveAnswer = (dispatch) => {
+    return async(answer) => {
+        try{
+            console.log('save answer invoked');
+            console.log('----------');
+            console.log(answer);
+            console.log('----------');
+
+            const idToken = await AsyncStorage.getItem('token');
+
+        } catch(err){
+            console.log(err);
+        }
+    }
+}
+
 const getAllAnswers = (dispatch) => {
     return async(questionId) => {
         console.log(questionId);
@@ -67,7 +83,7 @@ const getAllAnswers = (dispatch) => {
                 idToken,
                 questionId
             });
-           console.log(answersArray.data);
+        //    console.log(answersArray.data);
             dispatch({ type: 'get_answers', payload: answersArray.data })
             
 
@@ -77,4 +93,4 @@ const getAllAnswers = (dispatch) => {
     }
 };
 
-export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion, getAllAnswers }, { questions: [], answers: [] });
+export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion, getAllAnswers, saveAnswer }, { questions: [], answers: [] });

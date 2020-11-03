@@ -1,14 +1,15 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import {navigate} from '../navigationRef';
+import { withNavigation } from 'react-navigation';
+import { navigate } from '../navigationRef';
 
-const FloatingActionButton = ({route}) => {
+const FloatingActionButton = ({ route, params, navigation }) => {
     return (
         <TouchableOpacity
             activeOpacity={0.7}
             style={styles.TouchableOpacityStyle}
-            onPress={() => {navigate(route)}}
-            >
+            onPress={params ? () => { navigation.navigate(route, params) } : () => { navigate(route) }}
+        >
             <Image
                 source={require('../../assets/fab.png')}
                 style={styles.FloatingButtonStyle}
@@ -34,4 +35,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default FloatingActionButton;
+export default withNavigation(FloatingActionButton);

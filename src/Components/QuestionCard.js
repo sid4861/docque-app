@@ -3,7 +3,7 @@ import {  StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import QuestionCardContent from './QuestionCardContent';
 
-const QuestionCard = ({ question, name, noOfAnswers, noOfInsightfuls, tag, key, filename }) => {
+const QuestionCard = ({ question, name, noOfAnswers, noOfInsightfuls, tag, key, filename, date }) => {
 
 
  
@@ -14,6 +14,7 @@ const QuestionCard = ({ question, name, noOfAnswers, noOfInsightfuls, tag, key, 
                 noOfInsightfuls={noOfInsightfuls}
                 tag={tag}
                 filename={filename}
+                date={date}
             />
     );
 }

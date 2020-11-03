@@ -15,10 +15,10 @@ const HomeScreen = ({navigation}) => {
        // console.log(state.questions);
     }, []);
 
-    const navigateToQuestionScreen = (key, question, name, noOfAnswers, noOfInsightfuls, tag, filename) => {
+    const navigateToQuestionScreen = (key, question, name, noOfAnswers, noOfInsightfuls, tag, filename, date) => {
         console.log(key);
         console.log('navigating to question screen');
-        navigation.navigate('QuestionScreen', {key, question, name, noOfAnswers, noOfInsightfuls, tag, filename});
+        navigation.navigate('QuestionScreen', {key, question, name, noOfAnswers, noOfInsightfuls, tag, filename, date});
     }
 
     return (
@@ -34,7 +34,8 @@ const HomeScreen = ({navigation}) => {
                         item.noOfAnswers,
                         item.noOfInsightfuls,
                         item.tag,
-                        item.filename)}} >
+                        item.filename,
+                        item.date)}} >
 
                         <QuestionCard
                             question={item.question}
@@ -44,6 +45,7 @@ const HomeScreen = ({navigation}) => {
                             tag={item.tag}
                             key={item.key}
                             filename={item.filename}
+                            date={item.date}
                         />
                         </TouchableOpacity>
                     )

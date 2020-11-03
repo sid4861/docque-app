@@ -13,6 +13,7 @@ import LoadingScreen from './src/Screens/LoadingScreen';
 import ForgotPasswordScreen from './src/Screens/ForgotPasswordScreen';
 import UserDetailsScreen from './src/Screens/UserDetailsScreen';
 import AddQuestionScreen from './src/Screens/AddQuestionScreen';
+import AddAnswerScreen from './src/Screens/AddAnswerScreen';
 import QuestionScreen from './src/Screens/QuestionScreen';
 import { setNavigator } from './src/navigationRef';
 import { Provider as AuthProvider } from './src/Context/AuthContext';
@@ -47,7 +48,8 @@ const switchNavigator = createSwitchNavigator({
   mailFlow: createStackNavigator({
     HomeScreen,
     AddQuestionScreen,
-    QuestionScreen
+    QuestionScreen,
+    AddAnswerScreen
   })
 });
 

@@ -16,6 +16,7 @@ const QuestionScreen = ({ navigation }) => {
     const noOfInsightfuls = navigation.getParam('noOfInsightfuls');
     const tag = navigation.getParam('tag');
     const filename = navigation.getParam('filename');
+    const date = navigation.getParam('date');
 
     const { getAllAnswers, state } = useContext(QuestionContext);
 
@@ -33,6 +34,7 @@ const QuestionScreen = ({ navigation }) => {
                 tag={tag}
                 key={key}
                 filename={filename}
+                date={date}
             />
             <Text style={{marginTop: 8, color: '#CA534C', alignSelf: 'center'}} > Answers </Text>
             {state.answers.length > 0 ? <AnswersList  answers={state.answers} /> :
@@ -40,8 +42,8 @@ const QuestionScreen = ({ navigation }) => {
                     <Image style={{ width: 350, height: 350 }} source={noAnswers} />
                     <Text style={{textAlign: 'center', lineHeight: 24, fontSize: 14, color: '#6C6C6C'}} > Oops! No answers for this question, add an answer by tapping on the + button below.   </Text>
                 </View>}
-
-            <FloatingActionButton />
+ 
+            <FloatingActionButton route={'AddAnswerScreen'} params={{questionId: key}} />
         </View>
     );
 }

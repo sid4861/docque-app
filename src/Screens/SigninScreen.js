@@ -24,7 +24,7 @@ const SigninScreen = () => {
                text="Forgot Password ?"
                routeName="ForgotPasswordScreen"
            />
-            <Line />
+            <Line  color={'#ffffff'} />
             <Spacer>
                 <ButtonPrimary text="Sign up" routeName="SignupScreen" />
             </Spacer>

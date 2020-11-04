@@ -14,6 +14,8 @@ const questionReducer = (state, action) => {
             return { ...state, currentQuestionId: action.payload };
         case 'set_answers_loaded':
             return {...state, areAnswersLoaded: action.payload};
+        case 'questions_by_user':
+            return {...state, questionsByUser: [...action.payload]}
         default:
             return state;
     }
@@ -36,6 +38,28 @@ const getAllQuestions = (dispatch) => {
         }
 
     };
+}
+
+//get questions asked by a user
+
+const getQuestionsByUser = (dispatch) => {
+    return async () => {
+        try{
+
+            const idToken = await AsyncStorage.getItem('token');
+            const userId = await AsyncStorage.getItem('userId');
+
+            const questionsResponse = await axios.post('/questions', {
+                idToken,
+                userId
+            });
+
+            //console.log(questionsResponse.data);
+            dispatch({type: 'questions_by_user', payload: questionsResponse.data});
+        } catch(err){
+            console.log(err);
+        }
+    }
 }
 
 const saveQuestion = (dispatch) => {
@@ -129,4 +153,4 @@ const setAnswersLoadedFalse = (dispatch) => {
 
 
 
-export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion, getAllAnswers, saveAnswer, setCurrentQuestionId, setAnswersLoadedFalse, }, { questions: [], answers: [], currentQuestionId: null, areAnswersLoaded: false });
+export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion, getAllAnswers, saveAnswer, setCurrentQuestionId, setAnswersLoadedFalse, getQuestionsByUser}, { questions: [], answers: [], currentQuestionId: null, areAnswersLoaded: false, questionsByUser: [] });

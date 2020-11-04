@@ -1,9 +1,10 @@
 import React, { useEffect, useContext } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Text } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Context as UserProfileContext } from '../Context/UserProfileContext';
+import ProfileData from '../Components/ProfileData';
 
 const UserProfileScreen = ({ navigation }) => {
 
@@ -15,9 +16,7 @@ const UserProfileScreen = ({ navigation }) => {
 
     return (
         <View>
-            <Text>
-                User Profile Screen
-            </Text>
+            {state.profileData != null ? <ProfileData  profileData={state.profileData} /> : <ActivityIndicator size="large" color="#CA534C" style={{ marginTop: 48, alignSelf: 'center' }} />}
         </View>
     );
 }

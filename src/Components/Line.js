@@ -8,7 +8,7 @@ const Line = () => {
             <Spacer>
                 <View
                     style={{
-                        borderBottomColor: 'white',
+                        borderBottomColor: '#fffff',
                         borderBottomWidth: 1,
                     }}
                 />

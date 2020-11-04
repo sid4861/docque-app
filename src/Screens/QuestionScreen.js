@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import { Text } from 'react-native-elements';
 import FloatingActionButton from '../Components/FloatingActionButton';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -46,7 +46,7 @@ const QuestionScreen = ({ navigation }) => {
         }
     }
     else {
-        answersList =  <Text> 'Loading' </Text> ;
+        answersList =  <ActivityIndicator size="large" color="#CA534C" style={{ marginTop: 48, alignSelf: 'center' }} /> ;
     }
 
     return (

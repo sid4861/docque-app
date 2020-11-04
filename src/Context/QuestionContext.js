@@ -12,8 +12,8 @@ const questionReducer = (state, action) => {
             return { ...state, answers: [...action.payload], areAnswersLoaded: true };
         case 'current_question_id':
             return { ...state, currentQuestionId: action.payload };
-        case 'answers_loaded':
-            return {...state, answers: [], areAnswersLoaded: action.payload};
+        case 'set_answers_loaded':
+            return {...state, areAnswersLoaded: action.payload};
         default:
             return state;
     }
@@ -82,6 +82,7 @@ const saveAnswer = (dispatch) => {
                 date: (Date(Date.now())).toString()
             })
 
+            navigate('QuestionScreen');
             console.log(response.data);
 
         } catch (err) {
@@ -93,7 +94,7 @@ const saveAnswer = (dispatch) => {
 const getAllAnswers = (dispatch) => {
     return async (questionId, sortBy='mostInsightful') => {
         console.log(questionId);
-        dispatch({type: 'answers_loaded', payload: false});
+        // dispatch({type: 'answers_loaded', payload: false});
         try {
             console.log('get all answers invoked');
             const idToken = await AsyncStorage.getItem('token');
@@ -119,4 +120,13 @@ const setCurrentQuestionId = (dispatch) => {
         dispatch({ type: 'current_question_id', payload: questionId });
     }
 }
-export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion, getAllAnswers, saveAnswer, setCurrentQuestionId }, { questions: [], answers: [], currentQuestionId: null, areAnswersLoaded: null });
+
+const setAnswersLoadedFalse = (dispatch) => {
+    return () => {
+        dispatch({ type: 'set_answers_loaded', payload: false });
+    }
+}
+
+
+
+export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion, getAllAnswers, saveAnswer, setCurrentQuestionId, setAnswersLoadedFalse, }, { questions: [], answers: [], currentQuestionId: null, areAnswersLoaded: false });

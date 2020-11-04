@@ -6,7 +6,7 @@ import { Context as QuestionContext } from '../Context/QuestionContext';
 
 const CustomFilterIcon = ({ menuStyle, navigation }) => {
 
-    const { getAllAnswers,  state } = useContext(QuestionContext);
+    const { getAllAnswers, setAnswersLoadedFalse, state } = useContext(QuestionContext);
     _menu = null;
     setMenuRef = ref => {
         // this._menu = ref;
@@ -23,15 +23,19 @@ const CustomFilterIcon = ({ menuStyle, navigation }) => {
         _menu.hide();
         console.log('recent answers clicked');
         // console.log(state.currentQuestionId);
+        setAnswersLoadedFalse();
         getAllAnswers(state.currentQuestionId, sortBy='recent');
     };
     option2Click = () => {
         _menu.hide();
         console.log('older answers clicked');
+        setAnswersLoadedFalse();
+        getAllAnswers(state.currentQuestionId, sortBy='older');
     };
     option3Click = () => {
         _menu.hide();
         console.log('most liked clicked');
+        setAnswersLoadedFalse();
         getAllAnswers(state.currentQuestionId);
     };
 

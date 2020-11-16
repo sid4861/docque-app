@@ -83,8 +83,8 @@ const switchNavigator = createSwitchNavigator({
       'Profile': userProfileScreenStack,
       'Your Questions': yourQuestionsScreenStack,
       'Your Answers': yourAnswersScreenStack,
-      'Contact us': contactUsScreenStack,
-      'Log out': LogoutScreen
+      'Contact': contactUsScreenStack,
+      'Logout': LogoutScreen
     }, {
       drawerBackgroundColor: '#CA534C',
       contentOptions: {

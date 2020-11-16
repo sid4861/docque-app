@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import { Text } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -10,6 +10,7 @@ const YourQuestionsScreen = ({ navigation }) => {
     const { getQuestionsByUser, setCurrentQuestionId, state } = useContext(QuestionContext);
 
     useEffect(() => {
+        console.log('inside questions by user useeffect');
         getQuestionsByUser();
     }, []);
 
@@ -23,7 +24,7 @@ const YourQuestionsScreen = ({ navigation }) => {
     return (
         <View>
 
-            <FlatList
+            {state.questionsByUserLoaded ? <FlatList
                 data={state.questionsByUser}
                 keyExtractor={(item) => item.key}
                 renderItem={({ item }) => {
@@ -52,7 +53,8 @@ const YourQuestionsScreen = ({ navigation }) => {
 
                     )
                 }}
-            />
+            /> : <ActivityIndicator size="large" color="#CA534C" style={{ marginTop: 48, alignSelf: 'center' }} />}
+
 
         </View>
     );
@@ -60,16 +62,13 @@ const YourQuestionsScreen = ({ navigation }) => {
 
 YourQuestionsScreen.navigationOptions = ({ navigation }) => {
     return {
-        headerRight: () => (
-            <View style={{ flexDirection: 'row' }} >
-                <TouchableOpacity style={{ marginRight: 24 }} onPress={() => navigation.navigate('')}>
-                    <FontAwesome name="filter" size={24} color="white" />
-                </TouchableOpacity>
-                <TouchableOpacity style={{ marginRight: 24 }} onPress={() => navigation.navigate('')}>
-                    <MaterialIcons name="sort" size={24} color="white" />
-                </TouchableOpacity>
-            </View>
-        ),
+        // headerRight: () => (
+        //     <View style={{ flexDirection: 'row' }} >
+        //         <TouchableOpacity style={{ marginRight: 24 }} onPress={() => navigation.navigate('')}>
+        //             <MaterialIcons name="sort" size={24} color="white" />
+        //         </TouchableOpacity>
+        //     </View>
+        // ),
         headerLeft: () => (
             <View style={{ flexDirection: 'row' }} >
                 <TouchableOpacity style={{ marginLeft: 24 }} onPress={() => navigation.openDrawer()}>

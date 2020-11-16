@@ -4,7 +4,7 @@ import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Context as QuestionContext } from '../Context/QuestionContext';
 
-const CustomFilterIcon = ({ menuStyle, navigation }) => {
+const CustomFilterIconQuestionScreen = ({ menuStyle, navigation }) => {
 
     const { getAllAnswers, setAnswersLoadedFalse, state } = useContext(QuestionContext);
     _menu = null;
@@ -23,14 +23,14 @@ const CustomFilterIcon = ({ menuStyle, navigation }) => {
         _menu.hide();
         console.log('recent answers clicked');
         // console.log(state.currentQuestionId);
-        setAnswersLoadedFalse();
-        getAllAnswers(state.currentQuestionId, sortBy='recent');
+            setAnswersLoadedFalse();
+            getAllAnswers(state.currentQuestionId, sortBy = 'recent');
     };
     option2Click = () => {
         _menu.hide();
         console.log('older answers clicked');
         setAnswersLoadedFalse();
-        getAllAnswers(state.currentQuestionId, sortBy='older');
+        getAllAnswers(state.currentQuestionId, sortBy = 'older');
     };
     option3Click = () => {
         _menu.hide();
@@ -89,4 +89,4 @@ const CustomFilterIcon = ({ menuStyle, navigation }) => {
 };
 
 
-export default CustomFilterIcon;
+export default CustomFilterIconQuestionScreen;

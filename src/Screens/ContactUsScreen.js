@@ -1,15 +1,23 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Image, StyleSheet, Linking } from 'react-native';
 import { Text } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import contactus from '../../assets/contact-us.png';
+import { Button } from 'react-native-elements';
 const ContactUsScreen = () => {
-    return(
+    return (
         <View>
-            <Text>
-                Contact us Screen
-            </Text>
+            <Image style={{ width: 250, height: 250, alignSelf: 'center' }} source={contactus} />
+
+            <Button buttonStyle={{
+                backgroundColor: '#9C3C37',
+                marginHorizontal: 16
+            }} onPress={() => Linking.openURL('mailto:docquecommunity@gmail.com')}
+                title="Send Mail"
+
+            />
+
         </View>
     );
 }
@@ -36,5 +44,15 @@ ContactUsScreen.navigationOptions = ({ navigation }) => {
     };
 };
 
+
+const styles = StyleSheet.create({
+    textBold: {
+        color: '#6C6C6C',
+        fontWeight: 'bold',
+        fontSize: 16,
+        alignSelf: 'center',
+        marginTop: 32
+    }
+});
 
 export default ContactUsScreen;

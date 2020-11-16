@@ -7,7 +7,7 @@ import QuestionCard from '../Components/QuestionCard';
 import { Context as QuestionContext } from '../Context/QuestionContext';
 import noAnswers from '../../assets/no-answers.png';
 import AnswersList from '../Components/AnswersList';
-import CustomFilterIcon from '../Components/CustomFilterIcon';
+import CustomFilterIconQuestionScreen from '../Components/CustomFilterIconQuestionScreen';
 
 const QuestionScreen = ({ navigation }) => {
     const key = navigation.getParam('key');
@@ -78,7 +78,7 @@ QuestionScreen.navigationOptions = ({ navigation }) => {
             //         <MaterialIcons name="sort" size={24} color="white" />
             //     </TouchableOpacity>
             // </View>
-            <CustomFilterIcon menuStyle={{ flexDirection: 'row', marginRight: 24 }} />
+            <CustomFilterIconQuestionScreen menuStyle={{ flexDirection: 'row', marginRight: 24 }} />
         ),
         title: 'DOCQUE',
         headerStyle: {

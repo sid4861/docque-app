@@ -7,28 +7,34 @@ const questionReducer = (state, action) => {
     switch (action.type) {
         case 'get_questions':
             // console.log('inside add_questions');
-            return { ...state, questions: [...action.payload] };
+            return { ...state, questions: [...action.payload], areQuestionsLoaded: true };
         case 'get_answers':
             return { ...state, answers: [...action.payload], areAnswersLoaded: true };
         case 'current_question_id':
             return { ...state, currentQuestionId: action.payload };
         case 'set_answers_loaded':
-            return {...state, areAnswersLoaded: action.payload};
+            return { ...state, areAnswersLoaded: action.payload };
+        case 'set_questions_loaded':
+            return { ...state, areQuestionsLoaded: action.payload };
         case 'questions_by_user':
-            return {...state, questionsByUser: [...action.payload]}
+            return { ...state, questionsByUser: [...action.payload], questionsByUserLoaded: true }
+        case 'answers_by_user':
+            return { ...state, answersByUser: [...action.payload], answersByUserLoaded: true }
         default:
             return state;
     }
 };
 
 const getAllQuestions = (dispatch) => {
-    return async () => {
+    return async (sortBy = 'mostInsightful', filterBy = 'all') => {
         try {
             console.log('getAllQuestions invoked');
             const idToken = await AsyncStorage.getItem('token');
             const questionsArray = await axios.get('/questions', {
                 params: {
-                    idToken
+                    idToken,
+                    sortBy,
+                    filterBy
                 }
             });
             dispatch({ type: 'get_questions', payload: questionsArray.data })
@@ -44,7 +50,7 @@ const getAllQuestions = (dispatch) => {
 
 const getQuestionsByUser = (dispatch) => {
     return async () => {
-        try{
+        try {
 
             const idToken = await AsyncStorage.getItem('token');
             const userId = await AsyncStorage.getItem('userId');
@@ -55,8 +61,33 @@ const getQuestionsByUser = (dispatch) => {
             });
 
             //console.log(questionsResponse.data);
-            dispatch({type: 'questions_by_user', payload: questionsResponse.data});
-        } catch(err){
+            dispatch({ type: 'questions_by_user', payload: questionsResponse.data });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
+//get answers posted by user
+
+const getAnswersByUser = (dispatch) => {
+    return async () => {
+
+        console.log('inside getAnswersByUser');
+
+        try {
+            const idToken = await AsyncStorage.getItem('token');
+            const userId = await AsyncStorage.getItem('userId');
+            const response = await axios.get('/answers', {
+                params: {
+                    idToken,
+                    userId
+                }
+            })
+
+            dispatch({ type: 'answers_by_user', payload: response.data });
+
+        } catch (err) {
             console.log(err);
         }
     }
@@ -116,7 +147,7 @@ const saveAnswer = (dispatch) => {
 }
 
 const getAllAnswers = (dispatch) => {
-    return async (questionId, sortBy='mostInsightful') => {
+    return async (questionId, sortBy = 'mostInsightful') => {
         console.log(questionId);
         // dispatch({type: 'answers_loaded', payload: false});
         try {
@@ -151,6 +182,11 @@ const setAnswersLoadedFalse = (dispatch) => {
     }
 }
 
+const setQuestionsLoadedFalse = (dispatch) => {
+    return () => {
+        dispatch({ type: 'set_questions_loaded', payload: false });
+    }
+}
 
 
-export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion, getAllAnswers, saveAnswer, setCurrentQuestionId, setAnswersLoadedFalse, getQuestionsByUser}, { questions: [], answers: [], currentQuestionId: null, areAnswersLoaded: false, questionsByUser: [] });
+export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion, getAllAnswers, saveAnswer, setCurrentQuestionId, setAnswersLoadedFalse, getQuestionsByUser, getAnswersByUser, setQuestionsLoadedFalse }, { questions: [], answers: [], currentQuestionId: null, areAnswersLoaded: false, questionsByUser: [], questionsByUserLoaded: false , answersByUser: [], answersByUserLoaded: false, areQuestionsLoaded: false });

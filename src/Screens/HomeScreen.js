@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { View, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import QuestionCard from '../Components/QuestionCard';
 import { Context as QuestionContext } from '../Context/QuestionContext';
 import FloatingActionButton from '../Components/FloatingActionButton';
+import CustomSortIconHomeScreen from '../Components/CustomSortIconHomeScreen';
+import CustomFilterIconHomeScreen from '../Components/CustomFilterIconHomeScreen';
 
 const HomeScreen = ({ navigation }) => {
 
@@ -23,38 +24,48 @@ const HomeScreen = ({ navigation }) => {
         navigation.navigate('QuestionScreen', { key, question, name, noOfAnswers, noOfInsightfuls, tag, filename, date });
     }
 
-    return (
-        <View>
-            <FlatList
-                data={state.questions}
-                keyExtractor={(item) => item.key}
-                renderItem={({ item }) => {
-                    return (
-                        <TouchableOpacity onPress={() => {
-                            navigateToQuestionScreen(item.key,
-                                item.question,
-                                item.name,
-                                item.noOfAnswers,
-                                item.noOfInsightfuls,
-                                item.tag,
-                                item.filename,
-                                item.date)
-                        }} >
+    var questionsList;
+    if (state.areQuestionsLoaded == true) {
 
-                            <QuestionCard
-                                question={item.question}
-                                name={item.name}
-                                noOfAnswers={item.noOfAnswers}
-                                noOfInsightfuls={item.noOfInsightfuls}
-                                tag={item.tag}
-                                key={item.key}
-                                filename={item.filename}
-                                date={item.date}
-                            />
-                        </TouchableOpacity>
-                    )
-                }}
-            />
+        questionsList = <FlatList
+            data={state.questions}
+            keyExtractor={(item) => item.key}
+            renderItem={({ item }) => {
+                return (
+                    <TouchableOpacity onPress={() => {
+                        navigateToQuestionScreen(item.key,
+                            item.question,
+                            item.name,
+                            item.noOfAnswers,
+                            item.noOfInsightfuls,
+                            item.tag,
+                            item.filename,
+                            item.date)
+                    }} >
+
+                        <QuestionCard
+                            question={item.question}
+                            name={item.name}
+                            noOfAnswers={item.noOfAnswers}
+                            noOfInsightfuls={item.noOfInsightfuls}
+                            tag={item.tag}
+                            key={item.key}
+                            filename={item.filename}
+                            date={item.date}
+                        />
+                    </TouchableOpacity>
+                )
+            }}
+        />
+
+    }
+    else {
+        questionsList = <ActivityIndicator size="large" color="#CA534C" style={{ marginTop: 48, alignSelf: 'center' }} />;
+    }
+
+    return (
+        <View style={styles.container}>
+            {questionsList}
             <FloatingActionButton route={'AddQuestionScreen'} />
         </View>
 
@@ -67,13 +78,9 @@ const HomeScreen = ({ navigation }) => {
 HomeScreen.navigationOptions = ({ navigation }) => {
     return {
         headerRight: () => (
-            <View style={{ flexDirection: 'row' }} >
-                <TouchableOpacity style={{ marginRight: 24 }} onPress={() => navigation.navigate('')}>
-                    <FontAwesome name="filter" size={24} color="white" />
-                </TouchableOpacity>
-                <TouchableOpacity style={{ marginRight: 24 }} onPress={() => navigation.navigate('')}>
-                    <MaterialIcons name="sort" size={24} color="white" />
-                </TouchableOpacity>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
+
+                <CustomSortIconHomeScreen menuStyle={{ marginRight: 24 }} />
             </View>
         ),
         headerLeft: () => (
@@ -81,6 +88,7 @@ HomeScreen.navigationOptions = ({ navigation }) => {
                 <TouchableOpacity style={{ marginLeft: 24 }} onPress={() => navigation.openDrawer()}>
                     <MaterialIcons name="menu" size={24} color="white" />
                 </TouchableOpacity>
+                <CustomFilterIconHomeScreen menuStyle={{ marginLeft: 24 }} />
             </View>
         ),
         title: 'DOCQUE',
@@ -99,7 +107,7 @@ HomeScreen.navigationOptions = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-
+        flex: 1
     }
 });
 

@@ -19,10 +19,18 @@ const QuestionScreen = ({ navigation }) => {
     const filename = navigation.getParam('filename');
     const date = navigation.getParam('date');
 
-    const { getAllAnswers, state } = useContext(QuestionContext);
+    const { getAllAnswers, state, getQuestionById } = useContext(QuestionContext);
 
     useEffect(() => {
+        getQuestionById(key);
         getAllAnswers(key);
+        const listener = navigation.addListener('didFocus', () => {
+            getQuestionById(key);
+            getAllAnswers(key);
+        });
+        return () => {
+            listener.remove();
+        }
     }, [state.answers.length]);
 
     // const sortByTimeOlder = () => {
@@ -38,6 +46,7 @@ const QuestionScreen = ({ navigation }) => {
     // }
 
     var answersList;
+    var questionCard;
     if (state.areAnswersLoaded == true) {
         if (state.answers.length > 0) {
             answersList = <AnswersList answers={state.answers} />
@@ -46,21 +55,27 @@ const QuestionScreen = ({ navigation }) => {
         }
     }
     else {
-        answersList =  <ActivityIndicator size="large" color="#CA534C" style={{ marginTop: 48, alignSelf: 'center' }} /> ;
+        answersList = <ActivityIndicator size="large" color="#CA534C" style={{ marginTop: 48, alignSelf: 'center' }} />;
     }
 
+    if (state.isQuestionLoaded == true) {
+        questionCard = <QuestionCard
+            question={question}
+            name={name}
+            noOfAnswers={state.question.noOfAnswers}
+            noOfInsightfuls={state.question.noOfInsightfuls}
+            tag={tag}
+            questionId={key}
+            filename={filename}
+            date={date}
+        />;
+    }
+    else {
+        questionCard = <ActivityIndicator size="large" color="#CA534C" style={{ marginTop: 48, alignSelf: 'center' }} />;
+    }
     return (
         <View style={styles.container} >
-            <QuestionCard
-                question={question}
-                name={name}
-                noOfAnswers={noOfAnswers}
-                noOfInsightfuls={noOfInsightfuls}
-                tag={tag}
-                key={key}
-                filename={filename}
-                date={date}
-            />
+            {questionCard}
             <Text style={{ marginTop: 8, color: '#CA534C', alignSelf: 'center' }} > Answers </Text>
 
             {answersList}

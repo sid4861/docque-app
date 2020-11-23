@@ -17,9 +17,11 @@ const questionReducer = (state, action) => {
         case 'set_questions_loaded':
             return { ...state, areQuestionsLoaded: action.payload };
         case 'questions_by_user':
-            return { ...state, questionsByUser: [...action.payload], questionsByUserLoaded: true }
+            return { ...state, questionsByUser: [...action.payload], questionsByUserLoaded: true };
         case 'answers_by_user':
-            return { ...state, answersByUser: [...action.payload], answersByUserLoaded: true }
+            return { ...state, answersByUser: [...action.payload], answersByUserLoaded: true };
+        case 'get_question_by_id':
+            return { ...state, question: action.payload, isQuestionLoaded: true }
         default:
             return state;
     }
@@ -147,7 +149,7 @@ const saveAnswer = (dispatch) => {
 }
 
 const getAllAnswers = (dispatch) => {
-    return async (questionId, sortBy = 'mostInsightful') => {
+    return async (questionId, sortBy = 'recent') => {
         console.log(questionId);
         // dispatch({type: 'answers_loaded', payload: false});
         try {
@@ -158,7 +160,7 @@ const getAllAnswers = (dispatch) => {
                 questionId,
                 sortBy
             });
-            //    console.log(answersArray.data);
+            // console.log(answersArray.data);
             dispatch({ type: 'get_answers', payload: answersArray.data })
 
 
@@ -168,6 +170,79 @@ const getAllAnswers = (dispatch) => {
     }
 };
 
+//increment no of insightfuls
+
+const incrementInsightful = (dispatch) => {
+    return async (questionId) => {
+        console.log('increment insightful invoked');
+        console.log(questionId);
+        const idToken = await AsyncStorage.getItem('token');
+        try {
+            const response = await axios.get('/question', {
+                params: {
+                    questionId,
+                    idToken
+                }
+            });
+            let numberOfInsightfuls = response.data.noOfInsightfuls;
+            numberOfInsightfuls += 1;
+            const incrementInsightfulResponse = await axios.post('/question/increment-insightful', {
+                questionId,
+                numberOfInsightfuls,
+                idToken
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+};
+
+// increment insightful / like answer (on AnswerItem component)
+
+const incrementInsightfulForAnswer = (dispatch) => {
+    return async (answerId) => {
+        //console.log('increment insightful for answer invoked');
+        //console.log(answerId);
+        const idToken = await AsyncStorage.getItem('token');
+        try {
+            const response = await axios.get('/answer', {
+                params: {
+                    answerId,
+                    idToken
+                }
+            });
+            //console.log(response.data);
+            let numberOfInsightfuls = response.data.noOfInsightfuls;
+            numberOfInsightfuls += 1;
+            const incrementInsightfulResponse = await axios.post('/answer/increment-insightful', {
+                answerId,
+                numberOfInsightfuls,
+                idToken
+            })
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
+const getQuestionById = (dispatch) => {
+    return async (questionId) => {
+        try {
+            const idToken = await AsyncStorage.getItem('token');
+            const response = await axios.get('/question', {
+                params: {
+                    questionId,
+                    idToken
+                }
+            });
+            dispatch({ type: 'get_question_by_id', payload: response.data });
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+};
 //to set question id of question current on screen (QuestionScreen.js Component)
 
 const setCurrentQuestionId = (dispatch) => {
@@ -189,4 +264,4 @@ const setQuestionsLoadedFalse = (dispatch) => {
 }
 
 
-export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion, getAllAnswers, saveAnswer, setCurrentQuestionId, setAnswersLoadedFalse, getQuestionsByUser, getAnswersByUser, setQuestionsLoadedFalse }, { questions: [], answers: [], currentQuestionId: null, areAnswersLoaded: false, questionsByUser: [], questionsByUserLoaded: false , answersByUser: [], answersByUserLoaded: false, areQuestionsLoaded: false });
+export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion, getAllAnswers, saveAnswer, setCurrentQuestionId, setAnswersLoadedFalse, getQuestionsByUser, getAnswersByUser, setQuestionsLoadedFalse, incrementInsightful, getQuestionById, incrementInsightfulForAnswer }, { questions: [], answers: [], currentQuestionId: null, areAnswersLoaded: false, questionsByUser: [], questionsByUserLoaded: false, answersByUser: [], answersByUserLoaded: false, areQuestionsLoaded: false, question: null, isQuestionLoaded: false });

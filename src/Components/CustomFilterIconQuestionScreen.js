@@ -24,7 +24,7 @@ const CustomFilterIconQuestionScreen = ({ menuStyle, navigation }) => {
         console.log('recent answers clicked');
         // console.log(state.currentQuestionId);
             setAnswersLoadedFalse();
-            getAllAnswers(state.currentQuestionId, sortBy = 'recent');
+            getAllAnswers(state.currentQuestionId);
     };
     option2Click = () => {
         _menu.hide();
@@ -34,7 +34,7 @@ const CustomFilterIconQuestionScreen = ({ menuStyle, navigation }) => {
     };
     option3Click = () => {
         _menu.hide();
-        console.log('most liked clicked');
+        console.log('most liked clicked', sortBy = 'mostInsightful');
         setAnswersLoadedFalse();
         getAllAnswers(state.currentQuestionId);
     };

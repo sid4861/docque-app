@@ -1,21 +1,21 @@
-import React from 'react';
-import {  StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import QuestionCardContent from './QuestionCardContent';
 
-const QuestionCard = ({ question, name, noOfAnswers, noOfInsightfuls, tag, key, filename, date }) => {
+const QuestionCard = ({ question, name, noOfAnswers, noOfInsightfuls, tag, questionId, filename, date }) => {
 
 
- 
     return (
-            <QuestionCardContent question={question}
-                name={name}
-                noOfAnswers={noOfAnswers}
-                noOfInsightfuls={noOfInsightfuls}
-                tag={tag}
-                filename={filename}
-                date={date}
-            />
+        <QuestionCardContent question={question}
+            name={name}
+            noOfAnswers={noOfAnswers}
+            noOfInsightfuls={noOfInsightfuls}
+            tag={tag}
+            questionId={questionId}
+            filename={filename}
+            date={date}
+        />
     );
 }
 

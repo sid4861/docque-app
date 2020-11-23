@@ -14,6 +14,12 @@ const HomeScreen = ({ navigation }) => {
     useEffect(() => {
         //console.log('inside useEffect');
         getAllQuestions();
+        const listener = navigation.addListener('didFocus', () => {
+            getAllQuestions();
+        });
+        return () => {
+            listener.remove();
+        }
         // console.log(state.questions);
     }, []);
 
@@ -49,7 +55,7 @@ const HomeScreen = ({ navigation }) => {
                             noOfAnswers={item.noOfAnswers}
                             noOfInsightfuls={item.noOfInsightfuls}
                             tag={item.tag}
-                            key={item.key}
+                            questionId={item.key}
                             filename={item.filename}
                             date={item.date}
                         />

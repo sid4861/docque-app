@@ -3,9 +3,10 @@ import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
 import moment from 'moment';
+import { withNavigation } from 'react-navigation';
 import { Context as questionContext } from '../Context/QuestionContext';
 
-const AnswerItem = ({ answer, noi, date, answerKey, questionId, userId, comments, name }) => {
+const AnswerItem = ({ answer, noi, date, answerKey, questionId, userId, comments, name, navigation }) => {
 
     const [isLiked, setIsLiked] = useState(false);
     const { incrementInsightfulForAnswer } = useContext(questionContext);
@@ -42,10 +43,12 @@ const AnswerItem = ({ answer, noi, date, answerKey, questionId, userId, comments
 
                 {likeButton}
 
-                <View style={{ flexDirection: 'row', marginRight: 16 }}>
-                    <MaterialIcons name="comment" size={24} color="#CA534C" />
-                    <Text style={{ fontSize: 12, color: '#6C6C6C', marginLeft: 4 }} >{comments !== undefined ? Object.keys(comments).length : 0}</Text>
-                </View>
+                <TouchableOpacity onPress={() => {navigation.navigate('CommentsScreen', {answerId: answerKey})}} >
+                    <View style={{ flexDirection: 'row', marginRight: 16 }}>
+                        <MaterialIcons name="comment" size={24} color="#CA534C" />
+                        <Text style={{ fontSize: 12, color: '#6C6C6C', marginLeft: 4 }} >{comments !== undefined ? Object.keys(comments).length : 0}</Text>
+                    </View>
+                </TouchableOpacity>
 
             </View>
 
@@ -74,4 +77,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AnswerItem;
+export default withNavigation(AnswerItem);

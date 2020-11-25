@@ -9,19 +9,23 @@ const questionReducer = (state, action) => {
             // console.log('inside add_questions');
             return { ...state, questions: [...action.payload], areQuestionsLoaded: true };
         case 'get_answers':
-            return { ...state, answers: [...action.payload], areAnswersLoaded: true };
+            return { ...state, answers: [...action.payload], areAnswersLoaded: true, areCommentsLoaded: false };
         case 'current_question_id':
             return { ...state, currentQuestionId: action.payload };
         case 'set_answers_loaded':
             return { ...state, areAnswersLoaded: action.payload };
         case 'set_questions_loaded':
             return { ...state, areQuestionsLoaded: action.payload };
+        case 'set_comments_loaded':
+            return { ...state, areCommentsLoaded: action.payload };
         case 'questions_by_user':
             return { ...state, questionsByUser: [...action.payload], questionsByUserLoaded: true };
         case 'answers_by_user':
             return { ...state, answersByUser: [...action.payload], answersByUserLoaded: true };
         case 'get_question_by_id':
             return { ...state, question: action.payload, isQuestionLoaded: true }
+        case 'get_comments_by_answer_id':
+            return { ...state, comments: action.payload, areCommentsLoaded: true }
         default:
             return state;
     }
@@ -148,12 +152,48 @@ const saveAnswer = (dispatch) => {
     }
 }
 
+//saving comment
+const saveComment = (dispatch) => {
+    return async (comment, answerId) => {
+        try {
+            // console.log(comment);
+            // console.log(answerId);
+
+            // call api to save comment 
+            var commentObject = {};
+           
+            const idToken = await AsyncStorage.getItem('token');
+            const userId = await AsyncStorage.getItem('userId');
+
+            commentObject = {
+                comment: comment,
+                date: (Date(Date.now())).toString(),
+                userId: userId
+            }
+
+            const response = await axios.post('/comment', {
+                idToken,
+                userId,
+                comment: commentObject,
+                answerId
+            });
+            console.log(response.data);
+            setCommentsLoadedFalse();
+            navigate('CommentsScreen');
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+};
+
 const getAllAnswers = (dispatch) => {
     return async (questionId, sortBy = 'recent') => {
         console.log(questionId);
         // dispatch({type: 'answers_loaded', payload: false});
         try {
             console.log('get all answers invoked');
+            // setCommentsLoadedFalse();
             const idToken = await AsyncStorage.getItem('token');
             const answersArray = await axios.post('/answers', {
                 idToken,
@@ -243,6 +283,30 @@ const getQuestionById = (dispatch) => {
         }
     }
 };
+
+//get comments by answerId
+
+const getCommentsByAnswerId = (dispatch) => {
+    return async (answerId) => {
+        try {
+            console.log('inside getcommentsbyanswer' + answerId);
+            const idToken = await AsyncStorage.getItem('token');
+            const response = await axios.get('/comments', {
+                params: {
+                    idToken,
+                    answerId
+                }
+            });
+            dispatch({ type: 'get_comments_by_answer_id', payload: response.data });
+            //console.log(response.data);
+        } catch (err) {
+            console.log(err);
+        }
+
+    }
+}
+
+
 //to set question id of question current on screen (QuestionScreen.js Component)
 
 const setCurrentQuestionId = (dispatch) => {
@@ -263,5 +327,11 @@ const setQuestionsLoadedFalse = (dispatch) => {
     }
 }
 
+const setCommentsLoadedFalse = (dispatch) => {
+    return () => {
+        dispatch({ type: 'set_comments_loaded', payload: false });
+    }
+}
 
-export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion, getAllAnswers, saveAnswer, setCurrentQuestionId, setAnswersLoadedFalse, getQuestionsByUser, getAnswersByUser, setQuestionsLoadedFalse, incrementInsightful, getQuestionById, incrementInsightfulForAnswer }, { questions: [], answers: [], currentQuestionId: null, areAnswersLoaded: false, questionsByUser: [], questionsByUserLoaded: false, answersByUser: [], answersByUserLoaded: false, areQuestionsLoaded: false, question: null, isQuestionLoaded: false });
+
+export const { Context, Provider } = createDataContext(questionReducer, { getAllQuestions, saveQuestion, getAllAnswers, saveAnswer, setCurrentQuestionId, setAnswersLoadedFalse, getQuestionsByUser, getAnswersByUser, setQuestionsLoadedFalse, incrementInsightful, getQuestionById, incrementInsightfulForAnswer, getCommentsByAnswerId, setCommentsLoadedFalse, saveComment }, { questions: [], answers: [], currentQuestionId: null, areAnswersLoaded: false, questionsByUser: [], questionsByUserLoaded: false, answersByUser: [], answersByUserLoaded: false, areQuestionsLoaded: false, question: null, isQuestionLoaded: false, comments: [], areCommentsLoaded: false });

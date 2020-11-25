@@ -94,7 +94,7 @@ HomeScreen.navigationOptions = ({ navigation }) => {
                 <TouchableOpacity style={{ marginLeft: 24 }} onPress={() => navigation.openDrawer()}>
                     <MaterialIcons name="menu" size={24} color="white" />
                 </TouchableOpacity>
-                <CustomFilterIconHomeScreen menuStyle={{ marginLeft: 24 }} />
+                <CustomFilterIconHomeScreen menuStyle={{ marginLeft: 24, maxHeight: 400 }} />
             </View>
         ),
         title: 'DOCQUE',

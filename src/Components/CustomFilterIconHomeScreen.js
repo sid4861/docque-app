@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import { Context as QuestionContext } from '../Context/QuestionContext';
 import { FontAwesome } from '@expo/vector-icons';
 
 const CustomFilterIconHomeScreen = ({ menuStyle, navigation }) => {
+
+    
 
     const { getAllQuestions, setQuestionsLoadedFalse, state } = useContext(QuestionContext);
     _menu = null;
@@ -27,7 +29,7 @@ const CustomFilterIconHomeScreen = ({ menuStyle, navigation }) => {
         console.log(filterByParam);
         getAllQuestions(undefined, filterByParam);
     };
-
+    // const filterIconRef = useRef();
     return (
         <View style={menuStyle} >
             <Menu

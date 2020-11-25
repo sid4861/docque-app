@@ -15,7 +15,9 @@ import ForgotPasswordScreen from './src/Screens/ForgotPasswordScreen';
 import UserDetailsScreen from './src/Screens/UserDetailsScreen';
 import AddQuestionScreen from './src/Screens/AddQuestionScreen';
 import AddAnswerScreen from './src/Screens/AddAnswerScreen';
+import AddCommentScreen from './src/Screens/AddCommentScreen';
 import QuestionScreen from './src/Screens/QuestionScreen';
+import CommentsScreen from './src/Screens/CommentsScreen';
 import YourQuestionsScreen from './src/Screens/YourQuestionsScreen';
 import YourAnswersScreen from './src/Screens/YourAnswersScreen';
 import UserProfileScreen from './src/Screens/UserProfileScreen';
@@ -78,7 +80,9 @@ const switchNavigator = createSwitchNavigator({
         HomeScreen,
         AddQuestionScreen,
         QuestionScreen,
-        AddAnswerScreen
+        AddAnswerScreen,
+        AddCommentScreen,
+        CommentsScreen
       }),
       'Profile': userProfileScreenStack,
       'Your Questions': yourQuestionsScreenStack,

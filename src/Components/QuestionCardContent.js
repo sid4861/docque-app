@@ -3,11 +3,26 @@ import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import moment from 'moment';
 import { Context as questionContext } from '../Context/QuestionContext';
+import * as firebase from 'firebase/app';
+import 'firebase/storage';
 
 const QuestionCardContent = ({ question, name, noOfAnswers, noOfInsightfuls, tag, questionId, filename, date }) => {
 
     const [isLiked, setIsLiked] = useState(false);
     const { incrementInsightful } = useContext(questionContext);
+
+    const getFirebaseFileDownloadUrl = () => {
+        if (filename !== null) {
+            var storageRef = firebase.storage().ref('/questions/' + filename);
+            storageRef.getDownloadURL()
+                .then((url) => {
+                    console.log('file url', url);
+                })
+                .catch((e) => {
+                    console.log('getting error while downloading file', e);
+                });
+        }
+    }
 
     let likeButton = null;
     if (isLiked) {
@@ -46,10 +61,13 @@ const QuestionCardContent = ({ question, name, noOfAnswers, noOfInsightfuls, tag
 
                     {
                         filename ?
-                            <View style={{ flexDirection: 'row', marginRight: 16 }}>
-                                <Entypo name="attachment" size={24} color="#CA534C" />
-                                <Text style={{ fontSize: 12, color: '#6C6C6C', marginLeft: 4 }} >1</Text>
-                            </View>
+                            <TouchableOpacity onPress={() => { getFirebaseFileDownloadUrl() }} >
+                                <View style={{ flexDirection: 'row', marginRight: 16 }}>
+                                    <Entypo name="attachment" size={24} color="#CA534C" />
+                                    <Text style={{ fontSize: 12, color: '#6C6C6C', marginLeft: 4 }} >1</Text>
+                                </View>
+
+                            </TouchableOpacity>
                             :
                             null
                     }

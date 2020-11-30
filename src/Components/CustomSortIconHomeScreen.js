@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { View, TouchableOpacity } from 'react-native';
+import {Text} from 'react-native-elements';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Context as QuestionContext } from '../Context/QuestionContext';
@@ -7,38 +8,38 @@ import { Context as QuestionContext } from '../Context/QuestionContext';
 const CustomSortIconHomeScreen = ({ menuStyle, navigation }) => {
 
     const { getAllQuestions, setQuestionsLoadedFalse, state } = useContext(QuestionContext);
-    _menu = null;
-    setMenuRef = ref => {
+    let _menu = null;
+    const setMenuRef = ref => {
         // this._menu = ref;
         _menu = ref;
     };
-    showMenu = () => {
+    const showMenu = () => {
         _menu.show();
     };
-    hideMenu = () => {
+    const hideMenu = () => {
         _menu.hide();
     };
 
-    option1Click = () => {
+    const option1Click = () => {
         _menu.hide();
         console.log('recent questions clicked');
         // console.log(state.currentQuestionId);
         setQuestionsLoadedFalse();
         getAllQuestions( 'recent', undefined);
     };
-    option2Click = () => {
+    const option2Click = () => {
         _menu.hide();
         console.log('older questions clicked');
         setQuestionsLoadedFalse();
         getAllQuestions('older', undefined);
     };
-    option3Click = () => {
+    const option3Click = () => {
         _menu.hide();
         console.log('most liked clicked', undefined);
         setQuestionsLoadedFalse();
         getAllQuestions();
     };
-    option4Click = () => {
+    const option4Click = () => {
         _menu.hide();
         console.log('most answered clicked', undefined);
         setQuestionsLoadedFalse();
@@ -51,8 +52,9 @@ const CustomSortIconHomeScreen = ({ menuStyle, navigation }) => {
             <Menu
                 ref={(ref) => { setMenuRef(ref) }}
                 button={
-                    <TouchableOpacity onPress={() => { showMenu() }} >
-                        <MaterialIcons name="sort" size={24} color="white" />
+                    <TouchableOpacity onPress={() => { showMenu() }}  style={{flexDirection: 'row'}} >
+                        <MaterialIcons name="sort" size={24} color="#CA534C"  style={{marginLeft: 16}} />
+                        <Text style={{color: '#CA534C', marginLeft: 16, fontSize: 16}} >Sort</Text>
                     </TouchableOpacity>
                 }
                 style={{ borderColor: '#ffffff' }}

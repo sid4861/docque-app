@@ -36,6 +36,10 @@ const getAllQuestions = (dispatch) => {
         try {
             console.log('getAllQuestions invoked');
             const idToken = await AsyncStorage.getItem('token');
+            console.log('----------------');
+            console.log(sortBy);
+            console.log(filterBy);
+            console.log('----------------');
             const questionsArray = await axios.get('/questions', {
                 params: {
                     idToken,

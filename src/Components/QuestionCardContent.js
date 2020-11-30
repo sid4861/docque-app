@@ -5,8 +5,11 @@ import moment from 'moment';
 import { Context as questionContext } from '../Context/QuestionContext';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
+import * as FileSystem from 'expo-file-system';
+import { withNavigation } from 'react-navigation';
+import * as WebBrowser from 'expo-web-browser';
 
-const QuestionCardContent = ({ question, name, noOfAnswers, noOfInsightfuls, tag, questionId, filename, date }) => {
+const QuestionCardContent = ({ question, name, noOfAnswers, noOfInsightfuls, tag, questionId, filename, date, navigation }) => {
 
     const [isLiked, setIsLiked] = useState(false);
     const { incrementInsightful } = useContext(questionContext);
@@ -17,10 +20,25 @@ const QuestionCardContent = ({ question, name, noOfAnswers, noOfInsightfuls, tag
             storageRef.getDownloadURL()
                 .then((url) => {
                     console.log('file url', url);
+                    WebBrowser.openBrowserAsync(url);
+                    // navigation.navigate('ViewPdfScreen', { fileUrl: url });
+                    // FileSystem.downloadAsync(
+                    //     url,
+                    //     FileSystem.documentDirectory + filename
+                    //   )
+                    //     .then(({ uri }) => {
+                    //       console.log('Finished downloading to ', uri);
+                    //     })
+                    //     .catch(error => {
+                    //       console.error(error);
+                    //     });
+
+
                 })
                 .catch((e) => {
                     console.log('getting error while downloading file', e);
                 });
+
         }
     }
 
@@ -101,4 +119,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default QuestionCardContent;
+export default withNavigation(QuestionCardContent);

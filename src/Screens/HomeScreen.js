@@ -6,16 +6,26 @@ import { Context as QuestionContext } from '../Context/QuestionContext';
 import FloatingActionButton from '../Components/FloatingActionButton';
 import CustomSortIconHomeScreen from '../Components/CustomSortIconHomeScreen';
 import CustomFilterIconHomeScreen from '../Components/CustomFilterIconHomeScreen';
+import HomeScreenFilterAndSort from '../Components/HomeScreenFilterAndSort';
 
 const HomeScreen = ({ navigation }) => {
 
     const { getAllQuestions, setCurrentQuestionId, state } = useContext(QuestionContext);
 
+    const from = navigation.getParam('from');
+    const tagsFilter = navigation.getParam('tagsFilter');
     useEffect(() => {
-        //console.log('inside useEffect');
-        getAllQuestions();
+        console.log('inside useEffect');
+        console.log(navigation.getParam('from'));
+        console.log(navigation.getParam('tagsFilter'));
+        navigation.getParam('from') == 'TagFiltersScreen' ? getAllQuestions('mostInsightful', navigation.getParam('tagsFilter')) : getAllQuestions();
+        // getAllQuestions();
         const listener = navigation.addListener('didFocus', () => {
-            getAllQuestions();
+            // getAllQuestions();
+            console.log('inside did focus listener');
+            console.log(navigation.getParam('from'));
+            console.log(navigation.getParam('tagsFilter'));
+            navigation.getParam('from') == 'TagFiltersScreen' ? getAllQuestions('mostInsightful', navigation.getParam('tagsFilter')) : getAllQuestions();
         });
         return () => {
             listener.remove();
@@ -71,6 +81,7 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <HomeScreenFilterAndSort />
             {questionsList}
             <FloatingActionButton route={'AddQuestionScreen'} />
         </View>
@@ -83,18 +94,18 @@ const HomeScreen = ({ navigation }) => {
 
 HomeScreen.navigationOptions = ({ navigation }) => {
     return {
-        headerRight: () => (
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
+        // headerRight: () => (
+        //     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
 
-                <CustomSortIconHomeScreen menuStyle={{ marginRight: 24 }} />
-            </View>
-        ),
+        //         <CustomSortIconHomeScreen menuStyle={{ marginRight: 24 }} />
+        //     </View>
+        // ),
         headerLeft: () => (
             <View style={{ flexDirection: 'row' }} >
                 <TouchableOpacity style={{ marginLeft: 24 }} onPress={() => navigation.openDrawer()}>
                     <MaterialIcons name="menu" size={24} color="white" />
                 </TouchableOpacity>
-                <CustomFilterIconHomeScreen menuStyle={{ marginLeft: 24, maxHeight: 400 }} />
+                {/* <CustomFilterIconHomeScreen menuStyle={{ marginLeft: 24, maxHeight: 400 }} /> */}
             </View>
         ),
         title: 'DOCQUE',

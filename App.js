@@ -23,6 +23,8 @@ import YourAnswersScreen from './src/Screens/YourAnswersScreen';
 import UserProfileScreen from './src/Screens/UserProfileScreen';
 import ContactUsScreen from './src/Screens/ContactUsScreen';
 import LogoutScreen from './src/Screens/LogoutScreen';
+import ViewPdfScreen from './src/Screens/ViewPdfScreen';
+import TagFiltersScreen from './src/Screens/TagFiltersScreen';
 import { setNavigator } from './src/navigationRef';
 import { Provider as AuthProvider } from './src/Context/AuthContext';
 import { Provider as QuestionProvider } from './src/Context/QuestionContext';
@@ -78,6 +80,8 @@ const switchNavigator = createSwitchNavigator({
     drawerNavigator: createDrawerNavigator({
       Home: createStackNavigator({
         HomeScreen,
+        ViewPdfScreen,
+        TagFiltersScreen,
         AddQuestionScreen,
         QuestionScreen,
         AddAnswerScreen,

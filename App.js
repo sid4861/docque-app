@@ -26,6 +26,7 @@ import LogoutScreen from './src/Screens/LogoutScreen';
 import ViewPdfScreen from './src/Screens/ViewPdfScreen';
 import TagFiltersScreen from './src/Screens/TagFiltersScreen';
 import SearchScreen from './src/Screens/SearchScreen';
+import ResolveAuthScreen from './src/Screens/ResolveAuthScreen';
 import { setNavigator } from './src/navigationRef';
 import { Provider as AuthProvider } from './src/Context/AuthContext';
 import { Provider as QuestionProvider } from './src/Context/QuestionContext';
@@ -55,6 +56,7 @@ const fetchFonts = () => {
 };
 
 const switchNavigator = createSwitchNavigator({
+  ResolveAuthScreen,
   OnboardingScreens,
   loginFlow: createStackNavigator({
     SigninScreen,

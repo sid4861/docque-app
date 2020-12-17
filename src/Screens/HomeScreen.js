@@ -7,6 +7,7 @@ import FloatingActionButton from '../Components/FloatingActionButton';
 import CustomSortIconHomeScreen from '../Components/CustomSortIconHomeScreen';
 import CustomFilterIconHomeScreen from '../Components/CustomFilterIconHomeScreen';
 import HomeScreenFilterAndSort from '../Components/HomeScreenFilterAndSort';
+import { Text } from 'react-native-elements';
 
 const HomeScreen = ({ navigation }) => {
 
@@ -100,18 +101,35 @@ HomeScreen.navigationOptions = ({ navigation }) => {
         //         <CustomSortIconHomeScreen menuStyle={{ marginRight: 24 }} />
         //     </View>
         // ),
-        headerLeft: () => (
-            <View style={{ flexDirection: 'row' }} >
-                <TouchableOpacity style={{ marginLeft: 24 }} onPress={() => navigation.openDrawer()}>
-                    <MaterialIcons name="menu" size={24} color="white" />
-                </TouchableOpacity>
-                {/* <CustomFilterIconHomeScreen menuStyle={{ marginLeft: 24, maxHeight: 400 }} /> */}
-            </View>
-        ),
-        title: 'DOCQUE',
         headerStyle: {
             backgroundColor: '#CA534C'
         },
+        headerLeft: () => (
+            // <View style={{ flexDirection: 'row', marginTop: 48, justifyContent:'space-evenly' }} >
+            <TouchableOpacity style={{ marginLeft: 24 }} onPress={() => navigation.openDrawer()}>
+                <MaterialIcons name="menu" size={24} color="white" />
+            </TouchableOpacity>
+            // {/* <CustomFilterIconHomeScreen menuStyle={{ marginLeft: 24, maxHeight: 400 }} /> */}
+            // {/* </View> */}
+        ),
+        // title: '',
+        headerTitle: () => (
+            <TouchableOpacity style={{
+                borderWidth: 2,
+                borderColor: '#fff',
+                borderRadius: 5,
+                padding: 4,
+                width: '80%',
+                alignSelf: 'center',
+                backgroundColor: '#fff'
+            }} 
+            onPress={() => navigation.navigate('SearchScreen')}
+            >
+                <Text>
+                    Search Question
+                    </Text>
+            </TouchableOpacity>
+        ),
         headerTintColor: '#ffffff',
         headerTitleStyle: {
             fontWeight: 'normal',

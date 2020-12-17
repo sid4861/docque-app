@@ -6,7 +6,7 @@ import { navigate } from '../../src/navigationRef';
 const authReducer = (state, action) => {
     switch (action.type) {
         case 'add_error':
-            return { ...state, errorMessage: action.payload };
+            return { ...state, errorMessage: 'check username/password' };
         case 'add_success':
             return { ...state, successMessage: action.payload };
         case 'signup':
@@ -76,6 +76,7 @@ const signIn = (dispatch) => {
         try {
             navigate('LoadingScreen');
             const response = await axios.post('/signin', { email, password });
+            // navigate('LoadingScreen');
             await AsyncStorage.setItem('token', response.data.token);
             await AsyncStorage.setItem('userId', response.data.userId);
             dispatch({ type: 'signin', payload: response.data.token });
@@ -83,6 +84,7 @@ const signIn = (dispatch) => {
         } catch (err) {
             console.log(err);
             dispatch({ type: 'add_error', payload: 'Something went wrong with sign in' });
+            navigate('SigninScreen');
         }
     };
 };

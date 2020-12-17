@@ -25,6 +25,7 @@ import ContactUsScreen from './src/Screens/ContactUsScreen';
 import LogoutScreen from './src/Screens/LogoutScreen';
 import ViewPdfScreen from './src/Screens/ViewPdfScreen';
 import TagFiltersScreen from './src/Screens/TagFiltersScreen';
+import SearchScreen from './src/Screens/SearchScreen';
 import { setNavigator } from './src/navigationRef';
 import { Provider as AuthProvider } from './src/Context/AuthContext';
 import { Provider as QuestionProvider } from './src/Context/QuestionContext';
@@ -80,6 +81,7 @@ const switchNavigator = createSwitchNavigator({
     drawerNavigator: createDrawerNavigator({
       Home: createStackNavigator({
         HomeScreen,
+        SearchScreen,
         ViewPdfScreen,
         TagFiltersScreen,
         AddQuestionScreen,

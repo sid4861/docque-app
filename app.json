@@ -20,7 +20,16 @@
       "supportsTablet": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyBzYmdifMIowrHQgIPejuUzGRRNkMK_6G4",
+          "appId": "1:746515761562:web:c714dbf697f8bb06075223",
+          "measurementId": "G-N2NLRNSSST",
+          "projectId": "docque-e6f1f",
+          "authDomain": "docque-e6f1f.firebaseapp.com"
+        }
+      }
     }
   }
 }

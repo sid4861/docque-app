@@ -35,6 +35,7 @@ const HomeScreen = ({ navigation }) => {
     }, []);
 
     const navigateToQuestionScreen = (key, question, name, noOfAnswers, noOfInsightfuls, tag, filename, date) => {
+
         console.log(key);
         console.log('navigating to question screen');
         setCurrentQuestionId(key);
